@@ -27,8 +27,8 @@ const corsSet = cors({
   credentials: true,
 });
 
-// const errorHandler = require('./middlewares/error');
-// const router = require('./routes/index');
+const router = require('./routes/index');
+const errorHandler = require('./middlewares/central-error-handler');
 
 const app = express();
 
@@ -45,8 +45,8 @@ app.options('*', corsSet);
 
 app.use(limiter);
 
-// app.use(router);
-// app.use(errorHandler);
+app.use(router);
+app.use(errorHandler);
 
 const { PORT = 3001 } = process.env;
 
