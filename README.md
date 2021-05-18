@@ -1,2 +1,2 @@
 ### Дипломная работа (backend)
-(URL)[api.diploma.serikov.nomoredomains.monster]
+#URL -> https://api.diploma.serikov.nomoredomains.monster
