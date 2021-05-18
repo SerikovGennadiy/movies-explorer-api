@@ -1,2 +1,3 @@
 ### Дипломная работа (backend)
-#URL -> https://api.diploma.serikov.nomoredomains.monster
+Сервис для управления персональной подборкой фильмов
+## URL -> https://api.diploma.serikov.nomoredomains.monster
