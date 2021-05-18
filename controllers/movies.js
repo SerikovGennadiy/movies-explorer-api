@@ -1,5 +1,5 @@
 const BadRequestError = require('../errors/bad-request');
-const InternalServerError = require('../errors/internal-serer-error');
+const InternalServerError = require('../errors/internal-server-error');
 const MethodNotAllowError = require('../errors/method-not-allow-error');
 const NotFoundError = require('../errors/not-found-error');
 
@@ -12,7 +12,7 @@ const getMovies = (req, res, next) => {
     .catch(next);
 };
 
-const createMovie = (req, res, next) => {
+const saveMovie = (req, res, next) => {
   const owner = req.currentUser.id;
   const {
     country,
@@ -45,7 +45,7 @@ const createMovie = (req, res, next) => {
     .then((movie) => res.send({ data: movie }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        throw new BadRequestError('Переданы некорректные данные при сохранении фильмы');
+        throw new BadRequestError('Переданы некорректные данные при сохранении фильма');
       } else {
         throw new InternalServerError('Ошибка при сохранении фильма в коллекцию');
       }
@@ -69,7 +69,7 @@ const deleteMovie = (req, res, next) => {
     .then((movie) => res.send({ data: movie }))
     .catch((err) => {
       if (err.name === 'DocumentNotFoundError') {
-        throw new NotFoundError('Фильм с указанным _id не найдена');
+        throw new NotFoundError('Фильм с указанным _id не найден');
       } else if (err.name === 'CastError') {
         throw new BadRequestError('Невалидный id');
       } else {
@@ -81,6 +81,6 @@ const deleteMovie = (req, res, next) => {
 
 module.exports = {
   getMovies,
-  createMovie,
+  saveMovie,
   deleteMovie,
 };

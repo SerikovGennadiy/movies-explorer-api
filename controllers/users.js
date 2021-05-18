@@ -1,10 +1,10 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const JWT_SIGN_WORD = process.env.NODE_ENV !== 'production' ? 'SECRET' : process.env.JWT_SIGN_WORD;
+const { JWT_SIGN_WORD } = require('../config');
 
 const NotFoundError = require('../errors/not-found-error');
-const DefaultError = require('../errors/internal-serer-error');
+const DefaultError = require('../errors/internal-server-error');
 const NotValidError = require('../errors/bad-request');
 const Unauthorized = require('../errors/unauthorized');
 const Conflict = require('../errors/conflict');
@@ -27,9 +27,7 @@ const login = (req, res, next) => {
             const err = new Unauthorized('В доступе отказано');
             next(err);
           } else if (isValid) {
-            const token = jwt.sign({
-              id: user._id,
-            }, JWT_SIGN_WORD);
+            const token = jwt.sign({ id: user._id }, JWT_SIGN_WORD, { expiresIn: '7d' });
 
             const userForAnswer = JSON.parse(JSON.stringify(user));
             delete userForAnswer.password;
@@ -89,7 +87,7 @@ const createUser = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        throw new NotValidError('Укажите корректные email и пароль');
+        throw new NotValidError('Укажите корректные имя, email и пароль');
       } else if (err.name === 'MongoError') {
         throw new Conflict('Пользователь с такими данными уже записан');
       } else {

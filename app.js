@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const express = require('express');
 const cookieParser = require('cookie-parser');
 
@@ -28,29 +29,33 @@ const corsSet = cors({
 });
 
 const router = require('./routes/index');
-const errorHandler = require('./middlewares/central-error-handler');
+
+const centralErrorHandler = require('./middlewares/central-app-error-handler');
+
+const { requestLogger, errorLogger } = require('./middlewares/logger');
+
+const { PORT, MONGO_URL } = require('./config');
 
 const app = express();
 
+app.use(requestLogger);
+
+app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
 app.use(cookieParser());
 app.use(corsSet);
 
-app.use(helmet());
 app.disable('x-powered-by');
-
 app.options('*', corsSet);
 
 app.use(limiter);
-
 app.use(router);
-app.use(errorHandler);
 
-const { PORT = 3001 } = process.env;
+app.use(errorLogger);
+app.use(centralErrorHandler);
 
-mongoose.connect('mongodb://localhost:27017/bitfilmsdb', {
+mongoose.connect(MONGO_URL, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,

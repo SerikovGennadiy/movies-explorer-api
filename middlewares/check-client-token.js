@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const JWT_SIGN_WORD = process.env.NODE_ENV !== 'production' ? 'SECRET' : process.env.JWT_SIGN_WORD;
+const { JWT_SIGN_WORD } = require('../config');
 
 const Unauthorized = require('../errors/unauthorized');
 

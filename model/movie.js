@@ -25,24 +25,26 @@ const movieSchema = new mongoose.Schema({
   image: {
     type: String,
     required: true,
-    validator: {
-      validate: (url) => validator.isDataURI(url),
+    validate: {
+      validator: (url) => validator.isURL(url),
       message: 'Указан некорректный URL постера',
     },
   },
   trailer: {
     type: String,
     required: true,
-    validator: {
-      validate: (url) => validator.isDataURI(url),
+    validate: {
+      validator: (url) => validator.isURL(url),
       message: 'Указан некорректный URL трейлера',
     },
   },
   thumbnail: {
     type: String,
     required: true,
-    validate: (url) => validator.isDataURI(url),
-    message: 'Указан некорректный URL мини-постера',
+    validate: {
+      validator: (url) => validator.isURL(url),
+      message: 'Указан некорректный URL мини-постера',
+    },
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
@@ -50,19 +52,24 @@ const movieSchema = new mongoose.Schema({
     required: true,
   },
   movieId: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Number,
     required: true,
   },
   nameRU: {
     type: String,
     required: true,
-    validate: (name) => validator.isAlpha(name, 'ru-RU'),
-    message: 'Наименование должно быть на русском языке',
+    validate: {
+      validator: (name) => validator.isAlpha(name, 'ru-RU'),
+      message: 'Наименование должно быть на русском языке',
+    },
   },
   nameEN: {
     type: String,
     required: true,
-    message: 'Наименование должно быть на английском языке',
+    validate: {
+      validator: (name) => validator.isAlpha(name, 'en-US'),
+      message: 'Наименование должно быть на русском языке',
+    },
   },
 });
 
