@@ -59,7 +59,7 @@ const movieSchema = new mongoose.Schema({
     type: String,
     required: true,
     validate: {
-      validator: (name) => validator.isAlpha(name, 'ru-RU'),
+      validator: (name) => validator.isAlpha(name, 'ru-RU', { ignore: /[\-,:«»\s+]/g }),
       message: 'Наименование должно быть на русском языке',
     },
   },
@@ -67,8 +67,8 @@ const movieSchema = new mongoose.Schema({
     type: String,
     required: true,
     validate: {
-      validator: (name) => validator.isAlpha(name, 'en-US'),
-      message: 'Наименование должно быть на русском языке',
+      validator: (name) => validator.isAlpha(name, 'en-US', { ignore: /[\-,:«»\s+]/g }),
+      message: 'Наименование должно быть на английском языке',
     },
   },
 });

@@ -3,6 +3,7 @@ const { isCelebrateError } = require('celebrate');
 
 const errorHandler = (err, req, res, next) => {
   if (isCelebrateError(err)) {
+    console.log(err);
     res
       .status(400)
       .send({

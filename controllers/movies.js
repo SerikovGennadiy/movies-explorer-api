@@ -56,7 +56,7 @@ const saveMovie = (req, res, next) => {
 const deleteMovie = (req, res, next) => {
   const { id } = req.currentUser;
   const { movieId } = req.params;
-  Movie.findById(movieId)
+  Movie.findOne({ movieId: movieId })
     .orFail()
     .then((movie) => {
       if (String(movie.owner) !== String(id)) {

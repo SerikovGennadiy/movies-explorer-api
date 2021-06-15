@@ -20,7 +20,7 @@ const login = (req, res, next) => {
   User.findOne({ email }).select('+password')
     .then((user) => {
       if (!user) {
-        throw new Unauthorized('В доступе отказано');
+        throw new Unauthorized('Пользователя нет. Зарегистрируйтесь');
       } else {
         bcrypt.compare(password, user.password, (error, isValid) => {
           if (error) {

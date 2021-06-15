@@ -4,6 +4,7 @@ const validator = require('validator');
 const saveMoviePostedDataCheck = celebrate({
   body: Joi.object().keys({
     country: Joi.string().required().messages({
+      'string.base': 'Не указана страна производства фильма',
       'any.required': 'Поле "страна создания фильма" обязательно для заполнения',
     }),
     director: Joi.string().required().messages({
@@ -42,28 +43,31 @@ const saveMoviePostedDataCheck = celebrate({
       'number.base': 'id фильма, который содержится в ответе сервиса MoviesExplorer, выражается числом',
     }),
     nameRU: Joi.string().required()
-      .custom((value, helpers) => (validator.isAlpha(value, 'ru-RU') ? value : helpers.error('object.pattern')))
+      .custom((value, helpers) => (validator.isAlpha(value, 'ru-RU', { ignore: /[\-,:«»\s+]/g }) ? value : helpers.error('object.pattern')))
       .messages({
         'any.required': 'Поле "название фильма на русском языке" обязательно для заполнения',
-        'object.pattern': 'Название фильма должно быть на русском языке',
+        'object.pattern': 'Название фильма должно быть только на русском языке',
       }),
     nameEN: Joi.string().required()
-      .custom((value, helpers) => (validator.isAlpha(value, 'en-US') ? value : helpers.error('object.pattern')))
+      .custom((value, helpers) => (validator.isAlpha(value, 'en-US', { ignore: /[\-,:«»\s+]/g }) ? value : helpers.error('object.pattern')))
       .messages({
         'any.required': 'Поле "название фильма на английском языке" обязательно для заполнения',
-        'object.pattern': 'Название фильма должно быть на английском языке',
+        'object.pattern': 'Название фильма должно быть только на английском языке',
       }),
   }),
 });
 
 const deleteMovieParamDataCheck = celebrate({
   params: Joi.object().keys({
-    movieId: Joi.string().required()
-      .custom((value, helpers) => (validator.isMongoId(value) ? value : helpers.error('object.pattern')))
-      .messages({
-        'any.required': 'Поле "id фильма" обязательно для заполнения',
-        'object.pattern': 'Укажите корректный id фильма, удаляемого из коллекции пользователя',
-      }),
+    // movieId: Joi.string().required()
+    //   .custom((value, helpers) => (validator.isMongoId(value) ? value : helpers.error('object.pattern')))
+    //   .messages({
+    //     'any.required': 'Поле "id фильма" обязательно для заполнения',
+    //     'object.pattern': 'Укажите корректный id фильма, удаляемого из коллекции пользователя',
+    //   }),
+    movieId: Joi.number().required().messages({
+      'any.required': 'Поле "id фильма" обязательно для заполнения',
+    }),
   }),
 });
 

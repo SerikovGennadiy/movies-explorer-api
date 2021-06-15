@@ -22,7 +22,7 @@ const cors = require('cors');
 
 const corsSet = cors({
   allowedHeaders: ['X-Requested-With', 'Content-type', 'Accept', 'Origin'],
-  origin: ['http://diploma.serikov.nomoredomains.monster', 'https://diploma.serikov.nomoredomains.monster', 'http://localhost:3000'],
+  origin: ['http://diploma.serikov.nomoredomains.monster', 'https://diploma.serikov.nomoredomains.monster', 'http://localhost:3001'],
   methods: 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
   preflightContinue: false,
   credentials: true,
